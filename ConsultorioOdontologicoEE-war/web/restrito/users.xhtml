@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Usuários do Sistema
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:messages errorClass="msgErro"/>     
+        <h:form>
+            <table style="margin-bottom: 10px">
+                <tr>
+                    <td>Localizar Nome:</td>
+                    <td><h:inputText value="#{userControl.localizar}"/></td>
+                    <td><h:commandButton action="#{userControl.doLocalizar()}" value="Localizar" /></td>
+                    <td></td>
+                </tr>
+            </table>
+            <c:if test="#{userControl.usrFiltrado ne null}" >
+                <h:dataTable  
+                             rowClasses="tabelaBasica_row1,tabelaBasica_row2"
+                             class="tabelaBasica" value="#{userControl.usrFiltrado}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            Id
+                        </f:facet>
+                        #{item.usuId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Nome
+                        </f:facet>
+                        #{item.usuName}
+                    </h:column>
+                     <h:column>
+                        <f:facet name="header">
+                            Login
+                        </f:facet>
+                        #{item.usuLogin}
+                    </h:column>
+                    <h:column >
+                        <f:facet name="header">
+                            Administrador
+                        </f:facet>
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Tick_32.png" rendered="#{item.usuAdministrator eq true}" /> 
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Delete_32.png" rendered="#{item.usuAdministrator eq false}" /> 
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Dentista
+                        </f:facet>
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Tick_32.png" rendered="#{item.usuDentist eq true}" />
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Delete_32.png" rendered="#{item.usuDentist eq false}" /> 
+                    </h:column>
+                    <h:column rendered="#{userControl.loggedUser.usuAdministrator}">
+                        <f:facet name="header">
+                            Ações
+                        </f:facet>
+                         <h:commandLink action="#{userControl.doStartAlterar()}" title="Alterar Usuário">
+                             <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Pencil_32.png" />
+                             <f:setPropertyActionListener value="#{item}" target="#{userControl.usuarioSelected}" />
+                         </h:commandLink>
+                         <h:commandLink action="#{userControl.doFinishExcluir()}" onclick="return confirm('Tem certeza que deseja excluir o usuário?');" title="Excluir Usuário">
+                             <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Trash_32.png" />
+                             <f:setPropertyActionListener value="#{item}" target="#{userControl.usuarioSelected}" />
+                         </h:commandLink>
+                         <h:commandLink action="#{userControl.doStartAlterarSenha()}" title="Alterar Senha">
+                             <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Key_32.png" />
+                             <f:setPropertyActionListener value="#{item}" target="#{userControl.usuarioSelected}" />
+                         </h:commandLink>
+                    </h:column>
+                    
+                </h:dataTable>
+            </c:if>
+            <h:commandButton style="margin-top: 10px" action="#{userControl.doStartAddUsuario()}" value="Adicionar Usuário" />
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

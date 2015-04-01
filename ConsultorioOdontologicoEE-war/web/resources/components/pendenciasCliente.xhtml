@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:odonto="http://xmlns.jcp.org/jsf/composite/components"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Descrição do Componente -->
+    <!-- 
+       
+    -->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="customer" shortDescription="Cliente a ser listado" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    
+    <cc:implementation>
+        <h3>            
+            <img src="/ConsultorioOdontologicoEE-war/resources/imagens/Money_32.png"  />
+            Valores em aberto para o(a) #{cc.attrs.customer.cusName}
+        </h3>
+        <h:messages />
+        <odonto:tabelaOdontoEE lista="#{financeControl.getParcelas(cc.attrs.customer)}" msgSemRegistros="Nenhuma parcela em aberto"  colunaIdentifica="parId">
+            <h:column>
+                <f:facet name="header">
+                    Numero
+                </f:facet>
+                #{item.parNumero}
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Valor
+                </f:facet>
+                <h:outputText value="#{item.parValue}"><f:convertNumber type="currency"/></h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Pago?
+                </f:facet>
+                #{item.parPago}
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Ações
+                </f:facet>
+                <odonto:botaoAcaoTabela 
+                    icon="Wallet_32.png"
+                    action="#{financeControl.doPagar}"
+                    target="#{financeControl.selectedParcela}"
+                    title="Pagar"
+                    />
+                <odonto:botaoAcaoTabela 
+                    icon="Pdf_32.png"
+                    action="#{financeControl.doImprimirBoleto}"
+                    target="#{financeControl.selectedParcela}"
+                    title="Boleto"
+                    />
+                <h:commandLink action="#{financeControl.doSendEmailWithInvoice(cc.attrs.customer, item)}" title="Email" onclick="confirm('Deseja enviar o e-mail?');">
+                    <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Mail_32.png" />
+                    <f:setPropertyActionListener value="#{item}" target="#{financeControl.selectedParcela}" />
+                </h:commandLink>
+            </h:column>
+        </odonto:tabelaOdontoEE>
+    </cc:implementation>
+</html>

@@ -1,0 +1,107 @@
+
+
+
+.tabelaBasica_img{
+    margin: 5px;
+    width:  24px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.tabelaBasica{
+    width: 90%;
+    border-width: thin;
+    border-color: blue;
+    border-style: solid; 
+    text-align: center;
+}
+
+.tabelaBasica_colunaCentralizada{
+    text-align: center;
+}
+
+.tabelaBasica_colunaAcoes{
+    width: 20%;
+    text-align: center;
+}
+
+.tabelaBasica_row1{
+    background-color: beige;
+}
+.tabelaBasica_row2{
+    background-color: powderblue;
+}
+
+.msgErro{
+    color: red;
+}
+.logoConsultorioEE{
+     height: 100px;
+}
+
+.tituloHeader{
+    font-size: xx-large;
+    color: cornflowerblue;
+    height: 100px;
+    padding-top: 45px;
+    text-align: center;
+ 
+}
+
+.tituloFooter{
+    font-size: medium;
+}
+
+#top {
+    position: relative;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#bottom {
+    position: relative;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+    text-align: center;
+    clear: both;
+}
+
+#left {
+    float: left;    
+    padding: 5px;
+    width: 150px;
+}
+
+#right {
+    float: right;    
+    padding: 5px;
+    width: 150px;
+}
+
+.center_content {
+    position: relative;
+    padding: 5px;
+}
+
+.left_content {    
+    padding: 5px;
+    margin-left: 170px;
+}
+
+.right_content {    
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited { 
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: blue;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+

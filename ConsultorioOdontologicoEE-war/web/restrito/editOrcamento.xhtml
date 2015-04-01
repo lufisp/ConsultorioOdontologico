@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Alterar Orcamento para #{orcamentoControl.selectedCustomer.cusName}
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <h4>Anamnese sendo utilizada: </h4>
+        <h:messages errorClass="msgErro"/> 
+        <h:form id="frmEditOrcamento">   
+            <table>
+                <tr>
+                    <td>Fuma?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansFuma}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Pratica exercícios regularmente?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdoencaHereditaria}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Possui Doença Hereditária?</td>
+                    <td><h:selectBooleanCheckbox disabled="true"  value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdoencaHereditaria}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoDoenca" disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdescricaoDoenca}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Fez alguma Operação Recente?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansoperacaoRecente}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoOperacaoRecente" disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdescricaoOperacaoRecente}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Utiliza Medicação Contínua?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansmedicacaoContinua}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoMedicacao" disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdescricaoMedicacaoContinua}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Possúi alergia?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansAlergia}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoAlergia" disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdescricaoAlergia}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Possúi alguma DST?</td>
+                    <td><h:selectBooleanCheckbox disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansDst}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoDST" disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansdescricaoDst}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Observações?</td>
+                    <td><h:inputTextarea disabled="true" value="#{orcamentoControl.selectedOrcamento.orcAnaminese.ansObs}"/></td>                    
+                </tr>
+            </table>
+            <h3>Itens do Orçamento para #{orcamentoControl.selectedCustomer.cusName}</h3>
+
+            <h:dataTable
+                rendered="#{orcamentoControl.selectedOrcamento.orcamentoitemList.size() ne 0}"
+                rowClasses="tabelaBasica_row1,tabelaBasica_row2"
+                class="tabelaBasica" value="#{orcamentoControl.selectedOrcamento.orcamentoitemList}" var="item">
+                <h:column>
+                    <f:facet name="header">
+                        Serviço
+                    </f:facet>
+                    #{item.oriService.srvName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Quantidade
+                    </f:facet>
+                    <h:outputText value="#{item.oriQnt}" ></h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Total
+                    </f:facet>
+                    <h:outputText value="#{item.totalItemParcial}" ><f:convertNumber type="currency" /></h:outputText>
+                </h:column>  
+                <h:column>
+                    <f:facet name="header">
+                        Ações
+                    </f:facet>
+                    <h:commandLink immediate="true" action="#{orcamentoControl.doStartAlterarItemEdit()}" title="">
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Pencil_32.png" />
+                        <f:setPropertyActionListener value="#{item}" target="#{orcamentoControl.selectedOrcamentoItem}" />
+                    </h:commandLink>
+                    <h:commandLink immediate="true" action="#{orcamentoControl.doFinishExcluirItemEdit()}" onclick="return confirm('Tem certeza que deseja excluir o item?');" title="Excluir Item">
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Trash_32.png" />
+                        <f:setPropertyActionListener value="#{item}" target="#{orcamentoControl.selectedOrcamentoItem}" />
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton immediate="true" style="margin-top: 10px" action="#{orcamentoControl.doStartAddItemAoOrcamentoEdit()}" value="Cadastrar um novo Item" /> &nbsp;
+
+
+            <table>
+                <tr>
+                    <td>Dentista</td>
+                    <td>
+                        <h:selectOneMenu value="#{orcamentoControl.selectedOrcamento.orcDentist}" >
+                            <f:selectItems var="dentist" value="#{orcamentoControl.getDentistas()}" itemLabel="#{dentist.usuName}" itemValue="#{dentist}" itemDescription="#{dentist.usuName}" />
+                        </h:selectOneMenu>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Forma de Pagamento</td>
+                    <td>
+                        <h:selectOneMenu value="#{orcamentoControl.selectedOrcamento.orcpaymentType}" >
+                            <f:converter converterId="payConversor"/>
+                            <f:selectItems var="tipos" value="#{orcamentoControl.getPaymentTypes()}" itemDescription="#{tipos.description}" itemLabel="#{tipos.description}" itemValue="#{tipos}" />                            
+                        </h:selectOneMenu>
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Prestações</td>
+                    <td><h:inputText value="#{orcamentoControl.selectedOrcamento.orcTimes}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Observações</td>
+                    <td><h:inputTextarea value="#{orcamentoControl.selectedOrcamento.orcObs}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td><h:outputText value="#{orcamentoControl.selectedOrcamento.ordTotal}" ><f:convertNumber type="currency" /></h:outputText></td>                        
+                </tr>
+            </table>
+            <h:commandButton style="margin-top: 10px" action="#{orcamentoControl.doFinishAlterar()}" value="Salvar" /> &nbsp;
+            <h:commandButton style="margin-top: 10px" action="#{orcamentoControl.doCancelar()}" value="Cancelar" immediate="true"/> &nbsp;
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

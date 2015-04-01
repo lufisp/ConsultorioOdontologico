@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletoParcela" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c6cd1ec-1c60-478c-a41e-d8ec68fe6138">
+	<property name="ireport.zoom" value="1.4641000000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parcela" class="br.com.devmedia.consultorioee.entities.Parcela"/>
+	<parameter name="codigobarras" class="java.lang.String"/>
+	<title>
+		<band height="96" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="59b4634b-8d03-4a55-9095-836738c6e804" x="0" y="12" width="555" height="58" forecolor="#0000CC"/>
+			</rectangle>
+			<image>
+				<reportElement uuid="bdb882f6-0b1f-46eb-a22f-d656f2668dad" x="14" y="13" width="49" height="55"/>
+				<imageExpression><![CDATA["C:\\Users\\Fernando\\Documents\\NetBeansProjects\\ConsultorioOdontologicoEE\\ConsultorioOdontologicoEE-war\\web\\resources\\imagens\\odonto.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="6ed05683-631f-456a-a102-d4921c7900f5" x="73" y="46" width="142" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{parcela}.getParOrcamento().getOrcCustomer().getCusName()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b478f89e-b01c-4d7b-8262-06b1ce4572a5" x="215" y="21" width="190" height="20" forecolor="#9999FF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Consultório Enterprise Edition]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="208" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="90f5c8f3-112b-453f-ac57-2d2d4a9e6386" x="0" y="0" width="555" height="153"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="fe234b73-2989-46e7-b0e6-6e8d8c562ac7" x="12" y="18" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Parcela:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1cbb6530-a7f0-4710-bf4a-503a026dfa2f" x="12" y="38" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Valor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="73748037-6a64-4a30-b96f-b5a2999602ab" x="12" y="58" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9013db3b-2d7a-430a-a135-680d4e76ee47" x="12" y="78" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Total Orçamento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a1c22bda-23f8-4416-9047-ff30d4ce9171" x="115" y="18" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{parcela}.getParNumero()]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="ebf6119b-57e5-4923-8158-d3806a60a73b" x="115" y="38" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{parcela}.getParValue()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="130123bf-afa4-4c95-8d51-597cad46d2b7" x="115" y="58" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{parcela}.getParOrcamento().getOrcDate()]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="4eb8795b-7fc5-4cd7-b56b-c65b933edfb7" x="115" y="78" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{parcela}.getParOrcamento().getOrdTotal()]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement uuid="dad1ec7b-7aa6-470a-ad4a-3c8488577eaa" x="0" y="158" width="259" height="50"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Codabar" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{codigobarras}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+		</band>
+	</pageHeader>
+</jasperReport>

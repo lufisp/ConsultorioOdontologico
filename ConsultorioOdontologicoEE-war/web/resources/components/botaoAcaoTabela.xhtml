@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Descrição do Componente -->
+    <!-- 
+       
+    -->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="title" shortDescription="Titulo da ação" required="true" />
+        <cc:attribute name="action" required="true" method-signature="java.lang.String action()" />
+        <cc:attribute name="icon" required="true" />
+        <cc:attribute name="target" required="true" shortDescription="Propriedade de destino do item na tabela"/>
+        <cc:attribute name="onclick" shortDescription="JavaScript do evento onclick" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+
+    <cc:implementation>
+        <h:commandLink action="#{cc.attrs.action}" title="#{cc.attrs.title}" onclick="#{cc.attrs.onclick}">
+            <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/#{cc.attrs.icon}" />
+            <f:setPropertyActionListener value="#{item}" target="#{cc.attrs.target}" />
+        </h:commandLink>
+    </cc:implementation>
+</html>

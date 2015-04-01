@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- Descrição do Componente -->
+    <!-- 
+        Esse componente exibe uma tabela com o conteúdo definido no atributo lista.
+        Na primeira coluna, existe um checkbox, que quando selecionado, chama uma 
+        função javaScript contendo o conteúdo do item, presente na coluna definida
+        pelo parametro colunaIdentifica. Por exemplo, se na lista existir um 
+        objeto X, que possui um atributo chamado x_id. Para enviar esse falor para a 
+        função f1, basta que eu forneça o atributo x_id para a colunaIdentifica.
+        a EL #item[cc.attr.colunaIdentifica] primeiramente vai calcular o conteúdo presente
+        na EL dentro do colchetes e(x_id) e após isso a composição #item.x_id
+    -->
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="lista" type="java.util.List" shortDescription="Lista da Tabela" required="true" />
+        <cc:attribute name="msgSemRegistros" default="Nenhum item cadastrado" />
+        <cc:attribute name="colunaIdentifica" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+
+    <cc:implementation>
+        <script>
+            /*
+             * A função abaixo, seleciona o elemento hidden, passando uma querySelector, isso porque
+             * o JSF coloca o nome do form na frente do id de cada componente...e nesse ponto eu não sei
+             * qual é o nome do form que esse componente estará inserido...portanto capturo o tipo input
+             * cujo id contenha a palavra hidden, utilizando o *. Poderia utilizar também os wildcards $,
+             * para procurar no final do id ou ^ para procurar no começo...
+             * E após selecionar o componente hidden, concatena o valor presente no value com o id da linha
+             * selecionada....
+             */
+            function f1(item) {
+                item = item + ';' + document.querySelector('input[id*="hidden1"]').value;
+                document.querySelector('input[id*="hidden1"]').value = item;
+                alert(item);
+                return true;
+            }
+        </script>
+        <h:inputHidden id="hidden1" value=" "/>
+        <c:if test="#{cc.attrs.lista.size() eq 0}" >
+            #{cc.attrs.msgSemRegistros}
+            <br />
+        </c:if>
+        <h:dataTable   rendered="#{cc.attrs.lista.size() ne 0}"
+                       rowClasses="tabelaBasica_row1,tabelaBasica_row2"
+                       class="tabelaBasica" value="#{cc.attrs.lista}" var="item">
+            <h:column>
+                <f:facet name="header">
+                    Sel
+                </f:facet>
+                <h:selectBooleanCheckbox onchange="f1(#{item[cc.attrs.colunaIdentifica]})" />
+            </h:column>
+            <cc:insertChildren/>
+
+        </h:dataTable>
+    </cc:implementation>
+</html>

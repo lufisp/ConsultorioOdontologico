@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Categoria das Imagens Disponíveis.
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:messages errorClass="msgErro"/>     
+        <h:form>
+            <table style="margin-bottom: 10px">
+                <tr>
+                    <td>Localizar Categoria:</td>
+                    <td><h:inputText value="#{categoriaImagemControl.localizar}" /> </td>
+                    <td><h:commandButton action="#{categoriaImagemControl.doLocalizar()}" value="Localizar" /></td>
+                    <td></td>
+                </tr>
+            </table>
+            <c:if test="#{categoriaImagemControl.categoriaimagems ne null}" >
+                <h:dataTable 
+                             rowClasses="tabelaBasica_row1,tabelaBasica_row2"
+                             class="tabelaBasica" value="#{categoriaImagemControl.categoriaimagems}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            ID
+                        </f:facet>
+                        #{item.cigId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Nome
+                        </f:facet>
+                        #{item.cigNome}
+                    </h:column>
+                    <h:column rendered="#{userControl.loggedUser.usuAdministrator}">
+                        <f:facet name="header">
+                            Ações
+                        </f:facet>
+                        <h:commandLink action="#{categoriaImagemControl.doStartAlterar()}" title="Alterar Categoria">
+                             <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Pencil_32.png" />
+                             <f:setPropertyActionListener value="#{item}" target="#{categoriaImagemControl.categoriaimagemSelected}" />
+                         </h:commandLink>
+                        <h:commandLink action="#{categoriaImagemControl.doFinishExcluir()}" onclick="return confirm('Tem certeza que deseja excluir a Categoria da Imagem?');" title="Excluir Categoria">
+                             <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Trash_32.png" />
+                             <f:setPropertyActionListener value="#{item}" target="#{categoriaImagemControl.categoriaimagemSelected}" />
+                         </h:commandLink>
+                         
+                    </h:column>
+                    
+                </h:dataTable>
+            </c:if>
+            <h:commandButton style="margin-top: 10px" action="#{categoriaImagemControl.doStartAddCategoria()}" value="Adicionar Categoria" />
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:odonto="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Clientes Cadastrados
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:form >
+            <odonto:telaPesquisa 
+                actionLocalizacao="#{customerControl.doLocalizar()}"
+                campoLocalizacao="#{customerControl.localizar}"
+                descricaoLocalizacao="Localizar Cliente por Nome:" >
+                <f:facet name="barraTarefas">
+                    <h:commandButton style="margin-top: 10px" action="#{customerControl.doStartAddCustomer()}" value="Adicionar Cliente" />                
+                </f:facet>
+
+                <odonto:tabelaOdontoEE 
+                    colunaIdentifica="cusId"    
+                    lista="#{customerControl.customers}"
+                    msgSemRegistros="Não Existem Clientes" >
+                    <h:column>
+                        <f:facet name="header">
+                            ID
+                        </f:facet>
+                        #{item.cusId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Nome
+                        </f:facet>
+                        #{item.cusName}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Tel/Cel
+                        </f:facet>
+                        <h:outputText value="#{item.cusTelephone} / #{item.cuscelNumber}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Idade
+                        </f:facet>
+                        <h:outputText value="#{item.cusAge}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Ultimo Atendimento
+                        </f:facet>
+                        #{customerControl.getUltimoAtendimento(item.cusId)}                        
+                    </h:column>
+
+                    <h:column rendered="#{userControl.loggedUser.usuAdministrator}">
+                        <f:facet name="header">
+                            Ações
+                        </f:facet>
+                        <odonto:botaoAcaoTabela 
+                            action="#{orcamentoControl.doStartAtenderCliente(customerControl.customerSelected)}"
+                            icon="Atendimento_32.png"
+                            target="#{customerControl.customerSelected}"
+                            title="Atender o Cliente"
+                            />                       
+                        <odonto:botaoAcaoTabela 
+                            action="#{customerControl.doStartAlterar()}"
+                            icon="Pencil_32.png"
+                            target="#{customerControl.customerSelected}"
+                            title="Alterar o Cliente"
+                            />
+                        <odonto:botaoAcaoTabela 
+                            action="#{customerControl.doFinishExcluir()}"
+                            icon="Trash_32.png"
+                            target="#{customerControl.customerSelected}"
+                            title="Excluir o Cliente"
+                            onclick="return confirm('Tem certeza que deseja excluir o cliente?');"
+                            />                        
+                    </h:column>                
+                </odonto:tabelaOdontoEE>
+            </odonto:telaPesquisa>
+        </h:form>
+       
+    </ui:define>
+
+
+
+</ui:composition>

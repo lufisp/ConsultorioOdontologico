@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ul>
+        <li><a href="users.faces">Usuários (#{userControl.getUsers().size()})</a></li>
+        <li><a href="services.faces">Serviços (#{serviceControl.getServices().size()})</a></li>
+        <li><a href="customers.faces">Clientes (#{customerControl.getCustomersCount()})</a></li>
+        <li><a href="catimagens.faces">Categoria Imagens (#{categoriaImagemControl.categoriaimagemsCount})</a></li>
+    </ul>
+</ui:composition>
+

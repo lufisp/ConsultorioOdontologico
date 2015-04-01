@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    
+    <ui:define name="titleOfPage">
+        Novo Item de Orçamento
+    </ui:define>
+
+
+    <ui:define name="content">
+        <script>            
+            $(document).ready(function(){             
+            });            
+        </script>
+        
+        <h:messages errorClass="msgErro"/> 
+        <h:form id="frmOrcamento">
+            <h3>Nova Item de Orçamento para #{orcamentoControl.selectedCustomer.cusName}</h3>
+            <table>
+                <tr>
+                    <td>Serviço</td>
+                    <td>
+                        <h:selectOneMenu value="#{orcamentoControl.selectedOrcamentoItem.oriService}">
+                            <f:selectItems var="service" value="#{orcamentoControl.getServices()}" itemDescription="#{service.srvName}" itemLabel="#{service.srvName}"/>
+                        </h:selectOneMenu>  
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Quantidade</td>
+                    <td><h:inputText value="#{orcamentoControl.selectedOrcamentoItem.oriQnt}">
+                            <f:convertNumber  />
+                            <f:ajax event="blur" render="@all" execute="@all" />
+                        </h:inputText></td>                    
+                </tr>                      
+                <tr>
+                    <td>Observações?</td>
+                    <td><h:inputTextarea value="#{orcamentoControl.selectedOrcamentoItem.oriObs}"/></td>                    
+                </tr>
+                 <tr>
+                    <td>Valor Total</td>
+                    <td>
+                        <div id="valorTotalItem" >
+                            <h:outputText value="#{orcamentoControl.selectedOrcamentoItem.totalItemParcial}" ><f:convertNumber type="currency" /></h:outputText>
+                        </div>
+                    </td>                    
+                </tr> 
+
+
+            </table>
+            <!--Se não vier nada, ou seja não estiver na página addOrcamentoItem, jogo os botões padrões, caso contrário, os 
+                definidos no addOrcamentoItemEdit() -->
+            <ui:insert name="botoesSalvamento">
+                <h:commandButton style="margin-top: 10px" action="#{orcamentoControl.doFinishAddOrcamentoItem()}" value="Cadastrar" /> &nbsp;
+                <h:commandButton style="margin-top: 10px" action="addOrcamento.faces" value="Cancelar" immediate="true"/> &nbsp;
+            </ui:insert>
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

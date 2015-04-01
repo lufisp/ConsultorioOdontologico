@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    
+    <ui:define name="titleOfPage">
+        Nova Anamnese para #{anamineseControl.selectedCustomer.cusName}
+    </ui:define>
+
+
+    <ui:define name="content">
+        <script>
+             function enableDisable(checkBox, nomeText){
+                   if(checkBox.checked){
+                       $('input[id="frmAnamnese:'+nomeText+'"]').attr("disabled",false);
+                   }else{
+                       $('input[id="frmAnamnese:'+nomeText+'"]').attr("disabled",true);
+                   }                   
+                   return true;
+               }
+               
+            $(document).ready(function(){
+               $('input[type=text').attr("disabled",true); 
+            });
+            
+        </script>
+        
+        <h:messages errorClass="msgErro"/> 
+        <h:form id="frmAnamnese">
+            <h3>Nova Anamnese para #{anamineseControl.selectedCustomer.cusName}</h3>
+            <table>
+                <tr>
+                    <td>Fuma?</td>
+                    <td><h:selectBooleanCheckbox value="#{anamineseControl.selectedAnaminese.ansFuma}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Pratica exercícios regularmente?</td>
+                    <td><h:selectBooleanCheckbox value="#{anamineseControl.selectedAnaminese.ansdoencaHereditaria}"/></td>                    
+                </tr>
+                <tr>
+                    <td>Possui Doença Hereditária?</td>
+                    <td><h:selectBooleanCheckbox onchange="enableDisable(this,'descricaoDoenca')" value="#{anamineseControl.selectedAnaminese.ansdoencaHereditaria}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoDoenca" value="#{anamineseControl.selectedAnaminese.ansdescricaoDoenca}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Fez alguma Operação Recente?</td>
+                    <td><h:selectBooleanCheckbox onchange="enableDisable(this,'descricaoOperacaoRecente')" value="#{anamineseControl.selectedAnaminese.ansoperacaoRecente}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoOperacaoRecente" value="#{anamineseControl.selectedAnaminese.ansdescricaoOperacaoRecente}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Utiliza Medicação Contínua?</td>
+                    <td><h:selectBooleanCheckbox onchange="enableDisable(this,'descricaoMedicacao')" value="#{anamineseControl.selectedAnaminese.ansmedicacaoContinua}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoMedicacao" value="#{anamineseControl.selectedAnaminese.ansdescricaoMedicacaoContinua}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Possúi alergia?</td>
+                    <td><h:selectBooleanCheckbox onchange="enableDisable(this,'descricaoAlergia')" value="#{anamineseControl.selectedAnaminese.ansAlergia}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoAlergia" value="#{anamineseControl.selectedAnaminese.ansdescricaoAlergia}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Possúi alguma DST?</td>
+                    <td><h:selectBooleanCheckbox onchange="enableDisable(this,'descricaoDST')" value="#{anamineseControl.selectedAnaminese.ansDst}"/>
+                        &nbsp;Qual?
+                        <h:inputText id="descricaoDST" value="#{anamineseControl.selectedAnaminese.ansdescricaoDst}" />                    
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>Observações?</td>
+                    <td><h:inputTextarea value="#{anamineseControl.selectedAnaminese.ansObs}"/></td>                    
+                </tr>
+
+
+            </table>
+            <h:commandButton style="margin-top: 10px" action="#{anamineseControl.doFinishAddAnamnese()}" value="Cadastrar" /> &nbsp;
+            <h:commandButton style="margin-top: 10px" action="orcamentos.faces" value="Cancelar" immediate="true"/> &nbsp;
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

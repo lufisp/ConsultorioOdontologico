@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:odonto="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Orçamentos do Cliente #{orcamentoControl.selectedCustomer.cusName}        
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h2>Atendendo Cliente #{orcamentoControl.selectedCustomer.cusName}</h2>
+        <h:messages errorClass="msgErro"/>     
+
+
+        <h:form>
+            <odonto:pendenciasCliente customer="#{orcamentoControl.selectedCustomer}"/>
+        </h:form>
+        <hr />
+        <h3>Lista de Orçamentos Cadastrados</h3>
+        <h:form>            
+            <odonto:tabelaOdontoEE lista="#{orcamentoControl.orcamentos}" msgSemRegistros=" Nenhum Orçamento Cadastrado." colunaIdentifica="orcId">
+                <h:column>
+                    <f:facet name="header">
+                        ID
+                    </f:facet>
+                    #{item.orcId}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Data
+                    </f:facet>
+                    <h:outputText value="#{item.orcDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>&nbsp;
+                    <h:outputText value="#{item.orcHour}"><f:convertDateTime pattern="hh:mm:ss" /></h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Itens
+                    </f:facet>
+                    <h:outputText value="#{orcamentoControl.getItensOfOrcamento(item)}"><f:convertDateTime pattern="hh:mm:ss" /></h:outputText>                     
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Total
+                    </f:facet>                   
+                    <h:outputText value="#{item.ordTotal}"><f:convertNumber type="currency" /></h:outputText>
+
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Dentista
+                    </f:facet>
+                    #{item.orcDentist.usuName}                        
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Obs. Anaminese
+                    </f:facet>
+                    #{item.orcAnaminese.ansObs}                        
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Ultimo Atendimento
+                    </f:facet>
+                    #{customerControl.getUltimoAtendimento(item.orcCustomer.cusId)}                        
+                </h:column>
+
+                <h:column rendered="#{userControl.loggedUser.usuAdministrator}">
+                    <f:facet name="header">
+                        Ações
+                    </f:facet>     
+
+                    <odonto:botaoAcaoTabela 
+                        action="#{orcamentoControl.doStartAlterar()}"
+                        icon="Pencil_32.png"
+                        target="#{orcamentoControl.selectedOrcamento}"
+                        title="Alterar Orçamento"/>
+                     <odonto:botaoAcaoTabela 
+                        action="#{orcamentoControl.doViewImages()}"
+                        icon="Images_32.png"
+                        target="#{orcamentoControl.selectedOrcamento}"
+                        title="Ver Imagens"                        
+                        />  
+                    <odonto:botaoAcaoTabela 
+                        action="#{orcamentoControl.doFinishExcluir()}"
+                        icon="Trash_32.png"
+                        target="#{orcamentoControl.selectedOrcamento}"
+                        title="Excluir Orçamento"
+                        onclick="return confirm('Tem certeza que deseja excluir o orçamento?')"
+                        />  
+                </h:column>
+            </odonto:tabelaOdontoEE>
+
+            <br />
+            <h3>Lista de Anamneses Feitas</h3>
+            <br />            
+            <odonto:tabelaOdontoEE lista="#{anamineseControl.anamineses}" msgSemRegistros="Nenhuma Anamnese Cadastrada" colunaIdentifica="ansId">
+                <h:column>
+                    <f:facet name="header">
+                        Data da Anamnese
+                    </f:facet>
+                    <h:outputText value="#{item.ansDate}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>&nbsp;
+                    <h:outputText value="#{item.ansHour}"><f:convertDateTime pattern="hh:mm:ss" /></h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Dentista
+                    </f:facet>
+                    #{item.ansOrcamento.orcDentist.usuName}                        
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Obs. Anaminese
+                    </f:facet>
+                    #{item.ansObs}                        
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Ultimo Atendimento
+                    </f:facet>
+                    #{customerControl.getUltimoAtendimento(item.ansCustomer.cusId)}                        
+                </h:column>
+
+                <h:column rendered="#{userControl.loggedUser.usuAdministrator}">
+                    <f:facet name="header">
+                        Ações
+                    </f:facet>
+                    <h:commandLink action="#{orcamentoControl.doStartOrcamentoComUmaAnamnese(item)}" title="Utilizar Anamnese">
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Tick_32.png" />
+                        <f:setPropertyActionListener value="#{item}" target="#{anamineseControl.selectedAnaminese}" />                        
+                    </h:commandLink>                   
+                    <h:commandLink action="#{anamineseControl.doStartAlterar()}" title="Alterar Anamnese">
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Pencil_32.png" />
+                        <f:setPropertyActionListener value="#{item}" target="#{anamineseControl.selectedAnaminese}" />
+                    </h:commandLink>
+                    <h:commandLink action="#{anamineseControl.doFinishExcluir()}" onclick="return confirm('Tem certeza que deseja excluir a Anamnese?');" title="Excluir Anamnese">
+                        <h:graphicImage class="tabelaBasica_img" value="/resources/imagens/Trash_32.png" />
+                        <f:setPropertyActionListener value="#{item}" target="#{anamineseControl.selectedAnaminese}" />
+                    </h:commandLink>
+
+                </h:column>
+
+            </odonto:tabelaOdontoEE> 
+
+            <br />
+            <h:commandButton style="margin-top: 10px" action="#{anamineseControl.doStartAddAnamnese()}" value="Adicionar Anamnese" />
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>

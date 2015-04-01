@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./base.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <ui:define name="titleOfPage">
+        Nova Categoria
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:messages errorClass="msgErro"/> 
+        <h:form>
+            <table>
+                <tr>
+                    <td>Nome:</td>
+                    <td><h:inputText id="nomeProduto" value="#{categoriaImagemControl.categoriaimagemSelected.cigNome}"/></td>                    
+                </tr>                     
+            </table>
+            <h:commandButton style="margin-top: 10px" action="#{categoriaImagemControl.doFinishAddCategoriaimagem()}" value="Cadastrar" /> &nbsp;
+            <h:commandButton style="margin-top: 10px" action="catimagens.faces" value="Cancelar" immediate="true"/> &nbsp;
+        </h:form>
+    </ui:define>
+
+
+
+</ui:composition>
