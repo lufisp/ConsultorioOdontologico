@@ -28,6 +28,10 @@ public class ImageControl extends BasicControl{
     private List<Imagem> images;
     private Imagem selectedImagem;
     private Orcamento selectedOrcamento;
+    
+    public String doViewImages(){
+        return "/restrito/viewImages.faces";
+    }
 
     public ImageService getImageService() {
         return imageService;

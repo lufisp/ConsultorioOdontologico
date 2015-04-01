@@ -234,8 +234,5 @@ public class OrcamentoControl extends BasicControl implements Serializable {
         cleanCache();
         return "/restrito/orcamentos.faces";
     }
-    
-    public String doViewImages(){
-        return "/restrito/images.faces";
-    }
+
 }
