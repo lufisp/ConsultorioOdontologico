@@ -12,7 +12,9 @@
     </h:head>
 
     <h:body>
-        <h:outputScript library="js" name="jquery-1.11.1.min.js" target="head"/>
+        <ui:insert name="jqueryLib">
+            <h:outputScript library="js" name="jquery-1.11.1.min.js" target="head"/>
+        </ui:insert>
         <div id="top">
             <ui:include src="../header.xhtml"/>
             <ui:insert name="top"></ui:insert>

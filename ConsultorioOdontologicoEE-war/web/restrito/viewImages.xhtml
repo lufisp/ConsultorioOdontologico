@@ -11,13 +11,18 @@
         Imagens de #{imageControl.selectedOrcamento.orcCustomer.cusName} em #{imageControl.selectedOrcamento.orcDate}
     </ui:define>
 
+    <ui:define name="jqueryLib">
+        <h:outputScript library="js" name="jquery.min.js" target="head"/>
+        <h:outputScript library="js" name="jquery-ui.min.js" target="head"/>
+        <h:outputScript library="js" name="jquery.blueimp-gallery.min.js" target="head"/>
+        <h:outputScript library="js" name="jquery.image-gallery.js" target="head"/>
+        <h:outputScript library="js" name="startgallery.js" target="head"/>
+    </ui:define>
 
     <ui:define name="content">
-        <h:form>
-            <c:forEach var="customer" items="#{financeControl.getCustomersComParcelaEmAberto()}" >
-                <odonto:pendenciasCliente customer="#{customer}"/>
-            </c:forEach>
-        </h:form>
+        <h:outputStylesheet name="./css/jquery-ui.css"/>
+        <h:outputStylesheet name="./css/blueimp-gallery.min.css"/>
+        <h:outputStylesheet name="./css/demo.css"/>
     </ui:define>
 
 
