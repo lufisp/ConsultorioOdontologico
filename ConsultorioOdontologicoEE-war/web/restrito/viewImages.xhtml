@@ -5,7 +5,8 @@
                 xmlns:odonto="http://xmlns.jcp.org/jsf/composite/components"
                 template="./base.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="titleOfPage">
         Imagens de #{imageControl.selectedOrcamento.orcCustomer.cusName} em #{imageControl.selectedOrcamento.orcDate}
@@ -23,46 +24,18 @@
     </ui:define>
 
     <ui:define name="content">
-        <form>
+        <h:form id="frmImg">
             <button type="button" id="slideshow-button">Slideshow</button>
-            <select id="effect-switcher">
-                <option>blind</option>
-                <option>clip</option>
-                <option>drop</option>
-                <option selected="true">fade</option>
-                <option>fold</option>
-                <option>puff</option>
-                <option>slide</option>
-                <option>scale</option>
-            </select>
-            <select id="theme-switcher">
-                <option value="base">Base</option>
-                <option value="black-tie">Black Tie</option>
-                <option value="blitzer">Blitzer</option>
-                <option value="cupertino">Cupertino</option>
-                <option value="dark-hive">Dark Hive</option>
-                <option value="dot-luv">Dot Luv</option>
-                <option value="eggplant">Eggplant</option>
-                <option value="excite-bike">Excite Bike</option>
-                <option value="flick">Flick</option>
-                <option value="hot-sneaks">Hot sneaks</option>
-                <option value="humanity">Humanity</option>
-                <option value="le-frog">Le Frog</option>
-                <option value="mint-choc">Mint Choc</option>
-                <option value="overcast">Overcast</option>
-                <option value="pepper-grinder">Pepper Grinder</option>
-                <option value="redmond">Redmond</option>
-                <option value="smoothness">Smoothness</option>
-                <option value="south-street" selected="true">South Street</option>
-                <option value="start">Start</option>
-                <option value="sunny">Sunny</option>
-                <option value="swanky-purse">Swanky Purse</option>
-                <option value="trontastic">Trontastic</option>
-                <option value="ui-darkness">UI Darkness</option>
-                <option value="ui-lightness">UI Lightness</option>
-                <option value="vader">Vader</option>
-            </select>
-        </form>
+            <h:selectOneMenu value="#{imageControl.selectedCategoria}">
+                <f:selectItems value="#{imageControl.categorias}" var="item" itemDescription="#{item.cigNome}" itemLabel="#{item.cigNome}" itemValue="item"
+            </h:selectOneMenu>
+            &nbsp;
+            <h:commandButton id="btnAddImage" value="Cadastrar Imagem" action="#{imageControl.doCadastrarImagem()}" />
+            <input type="hidden" id="effect-switcher" value="fade" />
+            <input type="hidden" id="theme-switcher" value="South Street" />
+            
+          
+        </h:form>
         <br />
         <!-- The container for the list of example images -->
             <div id="links"></div>

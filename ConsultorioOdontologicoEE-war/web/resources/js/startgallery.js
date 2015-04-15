@@ -29,17 +29,17 @@ $(function () {
         jsonp: 'jsoncallback'
     }).done(function (result) {
         var linksContainer = $('#links'),
-            baseUrl;
+                baseUrl;
         // Add the demo images as links with thumbnails to the page:
         $.each(result.photos.photo, function (index, photo) {
             baseUrl = 'https://farm' + photo.farm + '.static.flickr.com/' +
-                photo.server + '/' + photo.id + '_' + photo.secret;
+                    photo.server + '/' + photo.id + '_' + photo.secret;
             $('<a/>')
-                .append($('<img>').prop('src', baseUrl + '_s.jpg'))
-                .prop('href', baseUrl + '_b.jpg')
-                .prop('title', photo.title)
-                .attr('data-dialog', '')
-                .appendTo(linksContainer);
+                    .append($('<img>').prop('src', baseUrl + '_s.jpg'))
+                    .prop('href', baseUrl + '_b.jpg')
+                    .prop('title', photo.title)
+                    .attr('data-dialog', '')
+                    .appendTo(linksContainer);
         });
     });
 
@@ -47,12 +47,12 @@ $(function () {
     $('#theme-switcher').change(function () {
         var theme = $('#theme');
         theme.prop(
-            'href',
-            theme.prop('href').replace(
+                'href',
+                theme.prop('href').replace(
                 /[\w\-]+\/jquery-ui.css/,
                 $(this).val() + '/jquery-ui.css'
-            )
-        );
+                )
+                );
     });
 
     // Initialize the effect switcher:
@@ -64,13 +64,17 @@ $(function () {
         });
     });
 
-    // Initialize the slideshow button:
+    // Initialize the slideshow button:    
+
     $('#slideshow-button')
-        .button({icons: {primary: 'ui-icon-image'}})
-        .on('click', function () {
-            $('#blueimp-gallery-dialog .blueimp-gallery')
-                .data('startSlideshow', true);
-            $('#links').children().first().click();
-        });
+            .button({icons: {primary: 'ui-icon-image'}})
+            .on('click', function () {
+                $('#blueimp-gallery-dialog .blueimp-gallery')
+                        .data('startSlideshow', true);
+                $('#links').children().first().click();
+            });
+
+    $('#frmImg:btnAddImage')
+            .button({icons: {primary: 'ui-icon-image'}});
 
 });
