@@ -11,10 +11,13 @@ import br.com.devmedia.consultorioee.entities.Imagem;
 import br.com.devmedia.consultorioee.entities.Orcamento;
 import br.com.devmedia.consultorioee.service.CategoriaImagemService;
 import br.com.devmedia.consultorioee.service.ImageService;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -34,9 +37,24 @@ public class ImageControl extends BasicControl{
     private Imagem selectedImagem;
     private Categoriaimagem selectedCategoria;
     private Orcamento selectedOrcamento;
+    private Part arquivoImagem;
+
+    public Part getArquivoImagem() {
+        return arquivoImagem;
+    }
+
+    public void setArquivoImagem(Part arquivoImagem) {
+        this.arquivoImagem = arquivoImagem;
+    }
+    
+    
    
     public List<Categoriaimagem> getCategorias(){
-        return categoriaService.getCategoriasDeImagem();
+        List<Categoriaimagem> cats = categoriaService.getCategoriasDeImagem();
+        if(selectedCategoria == null && cats.size() > 0){
+            selectedCategoria = cats.get(0);
+        }
+        return cats;
     }
 
     public CategoriaImagemService getCategoriaService() {
@@ -92,7 +110,17 @@ public class ImageControl extends BasicControl{
     }
     
     public String doCadastrarImagem(){
+        selectedImagem = new Imagem();
+        selectedImagem.setImgOrcamento(selectedOrcamento);
         return "/restrito/addImages.faces";
+    }
+    
+    public String doFinishCadastrarImagem() throws IOException{        
+        byte[] arqBytes = new byte[(int)arquivoImagem.getSize()];
+        arquivoImagem.getInputStream().read(arqBytes);              
+        selectedImagem.setImgImagem(arqBytes);  
+        imageService.addImagem(selectedImagem);
+        return "/restrito/viewImages.faces";
     }
     
     

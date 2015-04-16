@@ -27,30 +27,88 @@
         <h:form id="frmImg">
             <button type="button" id="slideshow-button">Slideshow</button>
             <h:selectOneMenu value="#{imageControl.selectedCategoria}">
-                <f:selectItems value="#{imageControl.categorias}" var="item" itemDescription="#{item.cigNome}" itemLabel="#{item.cigNome}" itemValue="item"
+                <f:selectItems value="#{imageControl.categorias}" var="item" itemDescription="#{item.cigNome}" itemLabel="#{item.cigNome}" itemValue="#{item}" />
+                <f:converter converterId="CategoriaImagemConverter" /> 
             </h:selectOneMenu>
             &nbsp;
-            <h:commandButton id="btnAddImage" value="Cadastrar Imagem" action="#{imageControl.doCadastrarImagem()}" />
+            <h:commandButton immediate="true" id="btnAddImage" value="Cadastrar Imagem" action="#{imageControl.doCadastrarImagem()}" />
             <input type="hidden" id="effect-switcher" value="fade" />
             <input type="hidden" id="theme-switcher" value="South Street" />
-            
-          
+
+
         </h:form>
         <br />
         <!-- The container for the list of example images -->
-            <div id="links"></div>
-            <!-- The dialog widget -->
-            <div id="blueimp-gallery-dialog" data-show="fade" data-hide="fade">
-                <!-- The Gallery widget  -->
-                <div class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
-                    <div class="slides"></div>
-                    <a class="prev">‹</a>
-                    <a class="next">›</a>
-                    <a class="play-pause"></a>
-                </div>
+        <div id="links"></div>
+        <!-- The dialog widget -->
+        <div id="blueimp-gallery-dialog" data-show="fade" data-hide="fade">
+            <!-- The Gallery widget  -->
+            <div class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
+                <div class="slides"></div>
+                <a class="prev">‹</a>
+                <a class="next">›</a>
+                <a class="play-pause"></a>
             </div>
+        </div>
+
+        <script>
+
+            $(function () {
+                'use strict';
+
+                // Load demo images from flickr:
+                $.ajax({
+                    url: 'http://localhost:8080/ConsultorioOdontologicoEE-war/webresources/image/#{imageControl.selectedOrcamento.orcId}/#{imageControl.selectedCategoria.cigId}',
+                    dataType: 'json',                    
+                }).done(function (result) {
+                    var linksContainer = $('#links'),
+                            baseUrl;
+                    // Add the demo images as links with thumbnails to the page:
+                    $.each(result, function (index, photo) {
+                        baseUrl = 'http://localhost:8080/ConsultorioOdontologicoEE-war/ImageServlet?id=';
+                        $('<a/>')
+                                .append($('<img>').prop('src', baseUrl + photo.imgId))
+                                .prop('href', baseUrl + photo.imgId)
+                                .prop('title', photo.imgDescricao)
+                                .attr('data-dialog', '')
+                                .appendTo(linksContainer).append('</img>');
+                    });
+                });
+
+                // Initialize the theme switcher:
+                $('#theme-switcher').change(function () {
+                    var theme = $('#theme');
+                    theme.prop(
+                            'href',
+                            theme.prop('href').replace(
+                            /[\w\-]+\/jquery-ui.css/,
+                            $(this).val() + '/jquery-ui.css'
+                            )
+                            );
+                });
+
+                // Initialize the effect switcher:
+                $('#effect-switcher').change(function () {
+                    var value = $(this).val();
+                    $('#blueimp-gallery-dialog').data({
+                        show: value,
+                        hide: value
+                    });
+                });
+
+                // Initialize the slideshow button:    
+
+                $('#slideshow-button')
+                        .button({icons: {primary: 'ui-icon-image'}})
+                        .on('click', function () {
+                            $('#blueimp-gallery-dialog .blueimp-gallery')
+                                    .data('startSlideshow', true);
+                            $('#links').children().first().click();
+                        });
+            });
+
+        </script>
+
     </ui:define>
-
-
 
 </ui:composition>

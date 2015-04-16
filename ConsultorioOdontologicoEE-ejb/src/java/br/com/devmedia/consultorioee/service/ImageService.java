@@ -7,6 +7,8 @@ package br.com.devmedia.consultorioee.service;
 
 import br.com.devmedia.consultorioee.entities.Imagem;
 import br.com.devmedia.consultorioee.service.repositories.ImageRepository;
+import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.PostActivate;
@@ -41,6 +43,9 @@ public class ImageService extends BasicService{
     }
     
     public Imagem addImagem(Imagem imagem) {
+        imagem.setImgdataInclusao(new Date());
+        imagem.setImghoraInclusao(new Date());
+        
         return imageRepository.addImagem(imagem);
     }
     
@@ -54,6 +59,14 @@ public class ImageService extends BasicService{
     
     public Imagem getImagem(int idOfImagem) {
         return imageRepository.getImagem(idOfImagem);
+    }
+    
+    public List<Imagem> getImagensOfOrcamento(int idOrcamento) {
+        return imageRepository.getImagensOfOrcamento(idOrcamento);
+    }
+
+    public List<Imagem> getImagensOfOrcamento(int idOrcamento, int idCategoria) {
+        return imageRepository.getImagensOfOrcamento(idOrcamento,idCategoria);
     }
     
 }

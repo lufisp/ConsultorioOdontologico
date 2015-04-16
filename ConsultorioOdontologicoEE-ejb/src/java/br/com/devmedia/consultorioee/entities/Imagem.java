@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -20,7 +22,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,29 +40,37 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Imagem.findByImgdataInclusao", query = "SELECT i FROM Imagem i WHERE i.imgdataInclusao = :imgdataInclusao"),
     @NamedQuery(name = "Imagem.findByImghoraInclusao", query = "SELECT i FROM Imagem i WHERE i.imghoraInclusao = :imghoraInclusao")})
 public class Imagem implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "img_id")
+    @XmlElement
     private Integer imgId;
     @Basic(optional = false)
     @Column(name = "img_descricao")
+    @XmlElement
     private String imgDescricao;
     @Column(name = "img_dataInclusao")
     @Temporal(TemporalType.DATE)
+    @XmlElement
     private Date imgdataInclusao;
     @Column(name = "img_horaInclusao")
     @Temporal(TemporalType.TIME)
+    @XmlElement
     private Date imghoraInclusao;
     @JoinColumn(name = "img_categoria", referencedColumnName = "cig_id")
     @ManyToOne(optional = false)
+    @XmlTransient
     private Categoriaimagem imgCategoria;
     @JoinColumn(name = "img_orcamento", referencedColumnName = "orc_id")
     @ManyToOne(optional = false)
+    @XmlTransient
     private Orcamento imgOrcamento;
     @Basic(optional = false)
     @Column(name = "img_imagem")
     @Lob
+    @XmlTransient
     private byte[] imgImagem;
 
     public Imagem() {
